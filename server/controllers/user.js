@@ -18,7 +18,7 @@ export const updateUser = async (req, res, next) => {
 			{ new: true }
 		);
 
-		resp.status(200).json(updatedUser);
+		res.status(200).json(updatedUser);
 	} catch (error) {
 		next(error);
 	}
