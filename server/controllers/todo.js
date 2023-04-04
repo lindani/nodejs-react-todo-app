@@ -13,14 +13,9 @@ export const addToDoItem = async (req, res, next) => {
 
 export const getToDoItems = async (req, res, next) => {
 	try {
-		const todos = await Todo.find();
-		const reducedTodos = [];
-		todos.map((todo) => {
-			if (todo && req.user.id === todo.userId) {
-				reducedTodos.push(todo);
-			}
-		}, []);
-		res.status(200).json(reducedTodos);
+		const userId = req.user.id;
+		const todos = await Todo.find({ userId });
+		res.status(200).json(todos);
 	} catch (err) {
 		next(err);
 	}
