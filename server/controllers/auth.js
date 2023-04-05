@@ -6,6 +6,10 @@ import { createError } from "../error.js";
 
 export const signup = async (req, res, next) => {
 	try {
+		const { name, password } = req.body;
+		const existingUser = await User.findOne({ name });
+		if (existingUser) return next(createError(404, "User already exists"));
+
 		const salt = bcrypt.genSaltSync(10);
 		const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 		const newUser = await User({ ...req.body, password: hashedPassword });
